@@ -13,6 +13,8 @@ $carro1->ligar();
 $carro1->abastecer(20);
 $carro1->acelerar(30);
 
+//echo Carro::POTENCIA;
+
 var_dump($carro1);
 var_dump($carro2);
 var_dump($carro3);

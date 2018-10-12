@@ -1,28 +1,38 @@
 <?php
+
+require_once './motor/interfaceMotor.php';
+
 /*
  *Classe base para carros 
  *@author Isabela
  */
 //nome do arquivo igual ao nome da class
-class Carro {
+abstract class Carro {
+    
+    //constante - estatico
+    const POTENCIA = 1.0;
+    const PESO = 1000;
+    
     public $cor = "Branco";
-    private $peso = 1000;
     private $combustivel = "gasolina";
-    private $qtdCombustivel = 0;
+    //protected os filhos podem usar
+    protected $qtdCombustivel = 0;
     private $velocidade = 0;
     private $kilometragem = 0;
-    private $potencia = 1.0;
     private $ligado = false;
-    private $direcao = 
+    private $direcao = "centro";
+    
+    private $motor;
     
     /*
      * Construtor do carro
      * @param string $cor
      */
-    public function __construct($cor = "Branco") {
+    public function __construct($cor = "Branco", interfaceMotor $motor) {
         
         $this->cor = $cor;
-        echo "Carro pronto!\n\n";
+        $this->motor = $motor;
+        
     }
 
     /*
@@ -31,7 +41,8 @@ class Carro {
     public function ligar(){
         
         if($this->qtdCombustivel > 0){
-            $this->ligado = true;
+            
+            $this->motor->ligar();
         }
     }
     
@@ -39,14 +50,14 @@ class Carro {
      * Desliga o carro 
      */
     public function desligar(){
-        $this->ligado = false;
+        $this->motor->desligar();
     }
     
     /*
      * Acelera o carro
      */
     public function acelerar($valor){
-            $this->velocidade = $valor * $this->potencia;
+            $this->velocidade = $valor * self::POTENCIA;
             $this->alimentarCombustivel();
             $this->kilometragem += $this->velocidade;
         
@@ -76,7 +87,7 @@ class Carro {
      */
     public function virar($direcao){
         
-        $this->$direcao = $direcao;
+        $this->direcao = $direcao;
         
     }
     
@@ -91,6 +102,12 @@ class Carro {
         }else {
             $this->desligar();
         }
+    }
+    //static pode ser utilizado pelo filho
+    static public function obterPotencia(){
+        
+        
+        
     }
     
 }
